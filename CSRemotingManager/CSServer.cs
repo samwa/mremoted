@@ -1,21 +1,26 @@
 using System;
 using System.Runtime.Remoting;
 
-namespace CSRemotingManager
+namespace Samwa.Masters
 {
-	public class CSServer
+	public class CSServer : CSEntity
 	{
 		public CSServer ()
 		{
 		
 		}
 		
-		protected static string Configure(string path)
+		public void Configure(string path)
 		{
 			RemotingConfiguration.Configure(path, false);
 			System.Console.WriteLine("The Server is ready .... Press the enter key to exit...");
 			System.Console.ReadLine();			
 		}
+
+        public override string EntityName()
+        {
+            return "CSServer";
+        }
 	}
 }
 

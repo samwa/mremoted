@@ -1,51 +1,58 @@
 using System;
 using System.Runtime.Remoting;
 
-using CSServiceManager;
-
-namespace CSRemotingManager
-{
+namespace Samwa.Masters
+{	
+	/// <summary>
+	/// manger class that can create a remoting client or a remoting server
+	/// </summary>
 	public class RemotingManager
 	{		
 		private ServiceManager _remoteService = null;
+		private CSClient _client = null;
+		private CSServer _server = null;
+		private string[] _args;
 		
-		public RemotingManager ()
+		public RemotingManager (string[] args)
 		{			
-			RemotingConfiguration.Configure("Client.exe.config", false);
+			_args = args;
+			//RemotingConfiguration.Configure("Client.exe.config", false);
 		}
 		
-		protected ServiceManager Configure(string clientConfig, string serverConfig)
-		{
-			
-			_remoteService = new ServiceManager();
+		public ServiceManager Setup(string clientConfig, string serverConfig)   
+		{			
+			_remoteService = new ServiceManager(); // the object to be shared
 			
 			if( _remoteService.Equals(null) )
 			{
 				// create a server
-				
+				_server = new CSServer();
+				_server.Configure(serverConfig);
 			}
 			else
 			{
+				// create a client
 				string strArgs;
-				if (args.Length == 0)
+				if (_args.Length == 0)
 				{
 					strArgs = "Client 1";
 				}
 				else
 				{
-					strArgs = args[0];
+					strArgs = _args[0];
 				}
 				
-				_remoteService.WriteName(strArgs);                        
-				//Console.WriteLine(remoteObj.ReadWelcome());
+				_remoteService.WriteName(strArgs);
+                //Console.WriteLine(remoteObj.ReadWelcome());
 				//Console.ReadLine();
-			}                 
+			}       
 			
+			return _remoteService;			
 		}
 		
 		protected string WriteLine()
 		{
-			
+			return String.Empty;
 		}
 	}
 }

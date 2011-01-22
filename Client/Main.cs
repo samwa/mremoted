@@ -1,16 +1,15 @@
 using System;
 using System.Runtime.Remoting;
 using System.Runtime.Remoting.Channels;
-using RemoteClass;
 
-namespace Client
+namespace Samwa.Masters
 {
 	class Client
 	{
 		public static void Main(string [] args)
 		{                 
 			RemotingConfiguration.Configure("Client.exe.config", false);
-			RemoteClass.RemoteClass remoteObj = new RemoteClass.RemoteClass();
+			RemoteClass remoteObj = new RemoteClass();
 			
 			if( remoteObj.Equals(null) )
 			{

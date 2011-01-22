@@ -1,12 +1,12 @@
 using System;
 
-namespace CSRemotingManager
+namespace Samwa.Masters
 {
-	public class CSClient
+    public class CSClient : CSEntity
 	{
-		public CSClient ()
+		public CSClient (string[] args)
 		{
-			RemoteClass.RemoteClass remoteObj = new RemoteClass.RemoteClass();
+			RemoteClass remoteObj = new RemoteClass();
 			
 			if( remoteObj.Equals(null) )
 			{
@@ -30,6 +30,11 @@ namespace CSRemotingManager
 			}                 
 			
 		}
+
+        public override string EntityName()
+        {
+            return "CSClient";
+        }
 	}
 }
 

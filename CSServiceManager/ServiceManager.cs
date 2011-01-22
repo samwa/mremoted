@@ -1,8 +1,8 @@
 using System;
 
-namespace CSServiceManager
+namespace Samwa.Masters
 {
-	// the remote class that will manager the app
+	// the remote class that will manage the app
 	public class ServiceManager : MarshalByRefObject	
 	{
 		private static string strWelcomeClient;   

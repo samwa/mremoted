@@ -1,21 +1,15 @@
 using System;
-using System.Runtime.Remoting;
 
-using ClientServer;
-using CSRemotingManager;
-
-namespace CSConsole
+namespace Samwa.Masters
 {
 	class MainClass
 	{
-		private RemotingManager _csManager = null;
-		private CSServer _csServer = null;
-		private CSClient _csClient = null;
+		private static RemotingManager _csManager = null;
 		
 		public static void Main (string[] args)
 		{     
-			_csManager = new RemotingManager();
-			
+			_csManager = new RemotingManager(args);
+            ServiceManager _sm = _csManager.Setup("Server.exe.config", "Client.exe.config");
 		}
 	}
 }

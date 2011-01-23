@@ -19,7 +19,23 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RemotingClient", "RemotingC
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RemotingServer", "RemotingServer\RemotingServer.csproj", "{8205A2EA-C393-4345-8F43-17528A36D264}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RemotingApp", "RemotingApp\RemotingApp.csproj", "{BAD6DB35-C03B-4AF9-A77B-124154B00C1A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PingServer", "PingServer\PingServer.csproj", "{C5199E46-83FD-4CF9-AC1C-522BE9C40105}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestRemoteClass", "TestRemoteClass\TestRemoteClass.csproj", "{55002B2E-C3CF-45DC-829E-F4F24EBE0F89}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{857BFA2A-3DFA-46AA-8663-3DF632514E87}"
+	ProjectSection(SolutionItems) = preProject
+		Local.testsettings = Local.testsettings
+		mremoted.vsmdi = mremoted.vsmdi
+		TraceAndTestImpact.testsettings = TraceAndTestImpact.testsettings
+	EndProjectSection
+EndProject
 Global
+	GlobalSection(TestCaseManagementSettings) = postSolution
+		CategoryFile = mremoted.vsmdi
+	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Debug|Mixed Platforms = Debug|Mixed Platforms
@@ -119,6 +135,36 @@ Global
 		{8205A2EA-C393-4345-8F43-17528A36D264}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{8205A2EA-C393-4345-8F43-17528A36D264}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{8205A2EA-C393-4345-8F43-17528A36D264}.Release|x86.ActiveCfg = Release|Any CPU
+		{BAD6DB35-C03B-4AF9-A77B-124154B00C1A}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{BAD6DB35-C03B-4AF9-A77B-124154B00C1A}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{BAD6DB35-C03B-4AF9-A77B-124154B00C1A}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{BAD6DB35-C03B-4AF9-A77B-124154B00C1A}.Debug|x86.ActiveCfg = Debug|x86
+		{BAD6DB35-C03B-4AF9-A77B-124154B00C1A}.Debug|x86.Build.0 = Debug|x86
+		{BAD6DB35-C03B-4AF9-A77B-124154B00C1A}.Release|Any CPU.ActiveCfg = Release|x86
+		{BAD6DB35-C03B-4AF9-A77B-124154B00C1A}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{BAD6DB35-C03B-4AF9-A77B-124154B00C1A}.Release|Mixed Platforms.Build.0 = Release|x86
+		{BAD6DB35-C03B-4AF9-A77B-124154B00C1A}.Release|x86.ActiveCfg = Release|x86
+		{BAD6DB35-C03B-4AF9-A77B-124154B00C1A}.Release|x86.Build.0 = Release|x86
+		{C5199E46-83FD-4CF9-AC1C-522BE9C40105}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{C5199E46-83FD-4CF9-AC1C-522BE9C40105}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{C5199E46-83FD-4CF9-AC1C-522BE9C40105}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{C5199E46-83FD-4CF9-AC1C-522BE9C40105}.Debug|x86.ActiveCfg = Debug|x86
+		{C5199E46-83FD-4CF9-AC1C-522BE9C40105}.Debug|x86.Build.0 = Debug|x86
+		{C5199E46-83FD-4CF9-AC1C-522BE9C40105}.Release|Any CPU.ActiveCfg = Release|x86
+		{C5199E46-83FD-4CF9-AC1C-522BE9C40105}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{C5199E46-83FD-4CF9-AC1C-522BE9C40105}.Release|Mixed Platforms.Build.0 = Release|x86
+		{C5199E46-83FD-4CF9-AC1C-522BE9C40105}.Release|x86.ActiveCfg = Release|x86
+		{C5199E46-83FD-4CF9-AC1C-522BE9C40105}.Release|x86.Build.0 = Release|x86
+		{55002B2E-C3CF-45DC-829E-F4F24EBE0F89}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{55002B2E-C3CF-45DC-829E-F4F24EBE0F89}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{55002B2E-C3CF-45DC-829E-F4F24EBE0F89}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{55002B2E-C3CF-45DC-829E-F4F24EBE0F89}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{55002B2E-C3CF-45DC-829E-F4F24EBE0F89}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{55002B2E-C3CF-45DC-829E-F4F24EBE0F89}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{55002B2E-C3CF-45DC-829E-F4F24EBE0F89}.Release|Any CPU.Build.0 = Release|Any CPU
+		{55002B2E-C3CF-45DC-829E-F4F24EBE0F89}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{55002B2E-C3CF-45DC-829E-F4F24EBE0F89}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{55002B2E-C3CF-45DC-829E-F4F24EBE0F89}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

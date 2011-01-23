@@ -24,8 +24,8 @@ namespace Samwa.Masters
 					strArgs = args[0];
 				}
 				
-				remoteObj.WriteName(strArgs);                        
-				System.Console.WriteLine(remoteObj.ReadWelcome());
+				//remoteObj.WriteName(strArgs);                        
+				//System.Console.WriteLine(remoteObj.ReadWelcome());
 				System.Console.ReadLine();
 			}                 
 			

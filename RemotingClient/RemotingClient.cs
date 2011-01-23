@@ -14,6 +14,10 @@ namespace Samwa
             RemoteClass rmt = (RemoteClass)(Activator.CreateInstance(typeof(RemoteClass), args));
 
             //RemoteClass rmt = new RemoteClass(true);
+            if (rmt is RemoteClass)
+            {
+
+            }
 
             bool objectCreated = (rmt != null);
 
@@ -21,7 +25,7 @@ namespace Samwa
             {
                 rmt.AddClient();
 
-                Console.WriteLine(rmt.Hello());
+                //Console.WriteLine(rmt.Hello());
 
                 Console.ReadLine();
 

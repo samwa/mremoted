@@ -27,6 +27,7 @@ namespace Samwa
                 Console.WriteLine("Registered ActivatedServiceType: " + entry.TypeName);
 		    }
 	    }
+
         private static void ListWellKnownServiceTypes()
         {
             foreach (WellKnownServiceTypeEntry entry in RemotingConfiguration.GetRegisteredWellKnownServiceTypes())

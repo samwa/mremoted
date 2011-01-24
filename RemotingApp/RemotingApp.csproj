@@ -48,8 +48,7 @@
     <Compile Include="RemotingFactory.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="ClientApp.config" />
-    <None Include="ServerApp.config" />
+    <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\RemoteClass\RemoteClass.csproj">

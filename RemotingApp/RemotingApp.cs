@@ -1,15 +1,18 @@
 ﻿
-using System;
-
-using System.Runtime.Remoting;
-using System.Net;
-using System.Net.Sockets;
-using System.Diagnostics;
-using System.IO;
-using System.Runtime.InteropServices;
 
 namespace Samwa
 {
+    using System;
+    using System.Linq;
+    using System.Runtime.Remoting;
+    using System.Net;
+    using System.Net.Sockets;
+    using System.Diagnostics;
+    using System.IO;
+    using System.Runtime.InteropServices;
+    using System.Runtime.Remoting.Channels;
+    using System.Runtime.Remoting.Channels.Tcp;
+
     class RemotingApp
     {
         [DllImport("Kernel32")]
@@ -42,11 +45,17 @@ namespace Samwa
         private static RemoteClass _lclClass; // a local instance of the remote class
         private static AppType _appType = AppType.Unknown;
         private static DateTime _startTime;
-        private static bool _serverRestarted = false;
-        
+        private static bool _startingServer = false;
 
         static void Main(string[] args)
         {
+
+            IChannel[] regChannels = ChannelServices.RegisteredChannels;
+            if (regChannels.Length > 0)
+            {
+                IChannel channel = (IChannel)ChannelServices.GetChannel(regChannels[0].ChannelName);
+            }
+
             // event handler for closing app
             _handler += new EventHandler(Handler);
             SetConsoleCtrlHandler(_handler, true);
@@ -57,42 +66,57 @@ namespace Samwa
             bool forceServer = (args.Length > 0 && args[0] == "forceserver");
             
             // check if the server exists
-            if (ServerExists() && !forceServer)
+            if (ServerExists())
             {
                 // we need to create a client
-                Console.WriteLine("starting remoting client");
-                _appType = AppType.Client;
-
-                DoLoopClient();
+                StartClient();
             }
             else
             {
                 // no server so lets make one
-                Console.WriteLine("starting remoting server{0}", (forceServer ? " forced" : String.Empty));
-                _appType = AppType.Server;
+                StartServer();
+                //_startingServer = true;
+            }
 
-                if (forceServer)
-                {
-                    while (ServerExists())
-                    {
-                        // loop until the server dies
-                    }
-                    Setup(_serverAppConfig);
-                }
-                else
-                {
-                    Setup(_serverAppConfig);
-                }
-
-                string[] activationData = new string[] { };
-                _rmtClass = (RemoteClass)RemotingFactory.GetRemoteObject("localhost", 8888, "RemoteClass", typeof(RemoteClass));
-
-                _startTime = DateTime.Now;
-                DoLoopServer();
+            if (_startingServer)
+            {
             }
 
             Console.WriteLine("end remoting app");
             System.Threading.Thread.Sleep(500);
+        }
+
+        private static void StartClient()
+        {
+            Console.WriteLine("starting remoting client");
+            _appType = AppType.Client;
+
+            DoLoopClient();
+        }
+
+        private static void StartServer()
+        {
+            // make sure there isn't a server already
+            int i = 0; // make sure we don't loop for ever
+            while (ServerExists() && i < 100)
+            {
+                // just loop until the server goes down
+                i++;
+            }
+
+            if (i > 99)
+                throw new Exception("Cannot create server, existing server won't stop");
+
+            Console.WriteLine("starting remoting server{0}");
+            _appType = AppType.Server;
+
+            Setup(_serverAppConfig);
+
+            string[] activationData = new string[] { };
+            _rmtClass = (RemoteClass)RemotingFactory.GetRemoteObject("localhost", 8888, "RemoteClass", typeof(RemoteClass));
+
+            _startTime = DateTime.Now;
+            DoLoopServer();
         }
 
         /// <summary>
@@ -125,39 +149,14 @@ namespace Samwa
                     // this should never get hit
                     Console.WriteLine("Closing - Unknown app type");
                     System.Threading.Thread.Sleep(750);
+
                     break;
                 case AppType.Server:
-                    // server is closing, we need to alert the object that a new server needs to be created
-                    _rmtClass.CloseServer();
+                    CloseServer();
+
                     break;
                 case AppType.Client:
-                    // client is closing, call the client closing method of the object
-                    while (!_done)
-                    {
-                        try
-                        {
-                            if (_rmtClass.RequestLock(_clientId, true))
-                            {
-                                // close client
-                                _rmtClass.CloseClient(_clientId);
-
-                                // refresh object
-                                _rmtClass = (RemoteClass)RemotingFactory.GetRemoteObject("localhost", 8888, "RemoteClass", typeof(RemoteClass));
-                                _lclClass = new RemoteClass(_rmtClass);
-
-                                // release lock from server
-                                _rmtClass.SetNextClient();
-                                _rmtClass.ReleaseLock(_clientId);
-
-                                _done = true;
-                            }
-                        }
-                        catch (Exception ex)
-                        {
-                            // exit anyway
-                            _done = true;
-                        }
-                    }
+                    CloseClient();                    
 
                     break;
                 default:
@@ -165,6 +164,50 @@ namespace Samwa
             }
         }
 
+        private static void CloseServer()
+        {
+            // server is closing, we need to alert the object that a new server needs to be created
+            _rmtClass.CloseServer();
+
+            IChannel[] regChannels = ChannelServices.RegisteredChannels;
+            if (regChannels.Length > 0)
+            {
+                Console.WriteLine("Unregistering tcp channel: {0}", regChannels[0].ChannelName);
+                IChannel channel = (IChannel)ChannelServices.GetChannel(regChannels[0].ChannelName);
+                ChannelServices.UnregisterChannel(channel);
+                System.Threading.Thread.Sleep(100);
+            }
+        }
+
+        private static void CloseClient()
+        {
+            // client is closing, call the client closing method of the object
+            _done = false;
+            while (!_done)
+            {
+                try
+                {
+                    if (_rmtClass.RequestLock(_clientId, true))
+                    {
+                        // close client
+                        _rmtClass.CloseClient(_clientId);
+                        
+                        // release lock from server
+                        _rmtClass.SetNextClient();
+                        _rmtClass.ReleaseLock(_clientId);
+
+                        _done = true;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    // exit anyway
+                    _done = true;
+                }
+            }
+        }
+
+        //[Obsolete("app switches to be a server, rather then starting one")]
         private static bool RestartServer()
         {
             ProcessStartInfo processInfo = new ProcessStartInfo();
@@ -200,6 +243,11 @@ namespace Samwa
 
         private static void Setup(string appConfig)
         {
+            //TcpChannel channel = new TcpChannel(8888);
+            //ChannelServices.RegisterChannel(channel, false);
+            //RemotingConfiguration.RegisterWellKnownServiceType(
+            //    typeof(RemoteClass), "RemoteClass",
+            //    WellKnownObjectMode.Singleton);
             RemotingConfiguration.Configure(appConfig, false);
         }
 
@@ -207,11 +255,11 @@ namespace Samwa
         {
             while (!_done)
             {
+                _rmtClass.ElapsedTime = DateTime.Now.Subtract(_startTime).TotalSeconds;
                 if (Console.KeyAvailable)
                 {
                     HandleKeyPress();
                 }
-                _rmtClass.ElapsedTime = DateTime.Now.Subtract(_startTime).TotalSeconds;
             }
         }
 
@@ -219,11 +267,6 @@ namespace Samwa
         {
             while (!_done)
             {
-                if (Console.KeyAvailable)
-                {
-                    HandleKeyPress();
-                }
-
                 try
                 {
                     if (_clientId == 0)
@@ -238,60 +281,62 @@ namespace Samwa
                     // request lock from server
                     if (_rmtClass.RequestLock(_clientId))
                     {
-                        // store remote object locally
+                        if (_startingServer)
+                        {
+                            // we have just restarted the server, now we need to set the remote object back into it 
+
+                            _startingServer = false;
+                        }
+
+                        // are we listed in the object?
+                        if (!_rmtClass.Clients.Contains(_clientId))
+                            _rmtClass.AddClient(_clientId);
+
+                        // do calc
+                        _rmtClass.Iterate();
+
                         _lclClass = new RemoteClass(_rmtClass);
-                        // check for closing server
-                        if (_rmtClass.ServerClosing)
-                        {
-                            if (!_serverRestarted)
-                            {
-                                // we need to start up a new server instance
-                                RestartServer();
-                                // and try and repopulate the remote object from our local one
-                                _rmtClass = (RemoteClass)RemotingFactory.GetRemoteObject("localhost", 8888, "RemoteClass", typeof(RemoteClass));
-                                _rmtClass = _lclClass;
 
-                                // set this to true so we only restart the server once
-                                _serverRestarted = true;
-                            }
-                        }
-                        else
-                        {
-                            // do calc
-                            _rmtClass.Iterate();
-
-                            // refresh object
-                            _rmtClass = (RemoteClass)RemotingFactory.GetRemoteObject("localhost", 8888, "RemoteClass", typeof(RemoteClass));
-                            _lclClass = new RemoteClass(_rmtClass);
-
-                            if (_serverRestarted)
-                                _serverRestarted = false;
-
-                        }
                         // release lock from server
                         _rmtClass.ReleaseLock(_clientId);
                     }
 
+                    if (Console.KeyAvailable)
+                    {
+                        HandleKeyPress();
+                    }
                 }
                 catch (SocketException soExp)
                 {
                     if (!ServerExists())
                     {
                         // oops server has gone, we need to create another one
-                        if (_lclClass.Clients.Length > 0 && _lclClass.Clients[0] == _clientId) // only restart the server if we are the first client in the list
+                        if (IsFirstClient() && !_startingServer) // only switch on server if we are the first client in the list and not already starting the server
                         {
+                            _startingServer = true;
                             RestartServer();
-                            // and try and repopulate the remote object from our local one
-                            _rmtClass = (RemoteClass)RemotingFactory.GetRemoteObject("localhost", 8888, "RemoteClass", typeof(RemoteClass));
-                            _rmtClass = _lclClass;
                         }
                     }
                     else
                     {
+                        Cleanup();
                         throw;
                     }
                 }
+                catch
+                {
+                    Cleanup();
+                    throw;
+                }
             }
+        }
+
+        private static bool IsFirstClient()
+        {
+            if (_lclClass == null || _clientId == 0)
+                return false;
+
+            return (_lclClass.Clients.Length > 0 && _lclClass.Clients[0] == _clientId);
         }
 
         private static void HandleKeyPress()

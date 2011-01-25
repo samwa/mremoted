@@ -43,6 +43,7 @@ namespace Samwa
             this.ServerClosing = another.ServerClosing;
             this.Pi = another.Pi;
             this.Iteration = another.Iteration;
+            this.ElapsedTime = another.ElapsedTime;
         }
 
         #region public properties
@@ -100,16 +101,27 @@ namespace Samwa
         public int AddClient()
         {
             List<int> list = new List<int>(_clients);
-            list.Add(++_totalClients);
+
+            int newId = (_clients.Length == 0 ? 1 : _clients.Max() + 1);
+
+            list.Add(newId);
 
             _totalClients = list.Count;
 
             _clients = list.ToArray();
 
-            _locked = 0;
-
             Console.WriteLine("Adding client, total clients: {0}", _totalClients.ToString());
-            return _totalClients;
+            return newId;
+        }
+
+        public void AddClient(int clientId)
+        {
+            List<int> list = new List<int>(_clients);
+            list.Add(clientId);
+
+            _totalClients = list.Count;
+
+            _clients = list.ToArray();
         }
 
         public bool CloseClient(int clientId)
@@ -132,6 +144,12 @@ namespace Samwa
             return RequestLock(clientId, false);
         }
 
+        /// <summary>
+        /// request a lock on the remoting object
+        /// </summary>
+        /// <param name="clientId">the client id doing the request</param>
+        /// <param name="force">do we want to force the lock</param>
+        /// <returns></returns>
         public bool RequestLock(int clientId, bool force)
         {
             if ((_locked == clientId || _locked == 0) // allowed to lock if already locked by client or not already locked
@@ -187,6 +205,18 @@ namespace Samwa
             string clientsStr = String.Join(",", Clients.Select(x => x.ToString()).ToArray());
             Console.WriteLine("RemoteClass data: Clients:[{0}], TotalClients:{1}, NextClient:{2}, Locked:{3}, ServerClosing:{4}, Pi:{5}, Iteration:{6}, ElapsedTime:{7}", 
                 clientsStr, TotalClients.ToString(), NextClient.ToString(), Locked.ToString(), ServerClosing.ToString(), Pi.ToString(), Iteration.ToString(), ElapsedTime.ToString());
+        }
+
+        public void ResetData(RemoteClass original)
+        {
+            this.Clients = original.Clients;
+            this.TotalClients = original.TotalClients;
+            this.Locked = original.Locked;
+            this.NextClient = original.NextClient;
+            this.ServerClosing = original.ServerClosing;
+            this.Pi = original.Pi;
+            this.Iteration = original.Iteration;
+            this.ElapsedTime = original.ElapsedTime;
         }
         #endregion
 

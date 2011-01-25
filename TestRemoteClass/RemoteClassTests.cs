@@ -119,5 +119,16 @@ namespace Samwa
 
             double pi = rc.Pi;
         }
+
+        [TestMethod]
+        public void AddSpecificClient()
+        {
+            RemoteClass rc = new RemoteClass();
+
+            rc.AddClient(2);
+
+            Assert.AreEqual(rc.Clients.First(), 2);
+
+        }
     }
 }

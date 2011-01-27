@@ -5,7 +5,7 @@ using Apache.NMS.ActiveMQ.Commands;
 
 namespace ActiveMQ.Examples
 {
-	public class TopicPublisher
+	public class TopicPublisher : IDisposable
 	{
 		private bool disposed;
 		private readonly ISession session;

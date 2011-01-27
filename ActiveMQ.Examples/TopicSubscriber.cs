@@ -12,19 +12,19 @@ namespace ActiveMQ.Examples
 		private readonly ITopic topic;
 		private readonly string destination;
 		private bool disposed = false;
+				
+		public event MessageRecievedDelegate OnMessageReceived;
 		
+		public IMessageConsumer Consumer { get; private set; }
+		
+		public string ConsumerId;
+
 		public TopicSubscriber (ISession session, string destination)
 		{
 			this.session = session;
 			this.destination = destination;
 			topic = new ActiveMQTopic(this.destination);
 		}
-		
-		public event MessageRecievedDelegate OnMessageReceived;
-		
-		public IMessageConsumer Consumer { get; private set; }
-		
-		public string ConsumerId;
 		
 		public void Start(string consumerId)
 		{

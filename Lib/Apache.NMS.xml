@@ -2409,6 +2409,21 @@
             </para>
             </remarks>
         </member>
+        <member name="M:Apache.NMS.MessageConsumerExtensions.Receive``1(Apache.NMS.IMessageConsumer)">
+            <summary>
+            Receives the message from the destination for this consumer.  The object must be de-serializable from XML.
+            </summary>
+        </member>
+        <member name="M:Apache.NMS.MessageConsumerExtensions.Receive``1(Apache.NMS.IMessageConsumer,System.TimeSpan)">
+            <summary>
+            Receives the message from the destination for this consumer.  The object must be de-serializable from XML.
+            </summary>
+        </member>
+        <member name="M:Apache.NMS.MessageConsumerExtensions.ReceiveNoWait``1(Apache.NMS.IMessageConsumer)">
+            <summary>
+            Receives the message from the destination for this consumer.  The object must be de-serializable from XML.
+            </summary>
+        </member>
         <member name="M:Apache.NMS.MessageEOFException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
             <summary>
             Initializes a new instance of the MessageEOFException class with serialized data.
@@ -2417,6 +2432,16 @@
             </summary>
             <param name="info">The SerializationInfo that holds the serialized object data about the exception being thrown.</param>
             <param name="context">The StreamingContext that contains contextual information about the source or destination.</param>
+        </member>
+        <member name="M:Apache.NMS.MessageExtensions.ToObject(Apache.NMS.IMessage)">
+            <summary>
+            Deserializes the object from Xml, and returns it.
+            </summary>
+        </member>
+        <member name="M:Apache.NMS.MessageExtensions.ToObject``1(Apache.NMS.IMessage)">
+            <summary>
+            Deserializes the object from Xml, and returns it.
+            </summary>
         </member>
         <member name="M:Apache.NMS.MessageFormatException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
             <summary>
@@ -2444,6 +2469,31 @@
             </summary>
             <param name="info">The SerializationInfo that holds the serialized object data about the exception being thrown.</param>
             <param name="context">The StreamingContext that contains contextual information about the source or destination.</param>
+        </member>
+        <member name="M:Apache.NMS.MessageProducerExtensions.CreateXmlMessage(Apache.NMS.IMessageProducer,System.Object)">
+            <summary>
+            Extension function to create a text message from an object.  The object must be serializable to XML.
+            </summary>
+        </member>
+        <member name="M:Apache.NMS.MessageProducerExtensions.Send(Apache.NMS.IMessageProducer,System.Object)">
+            <summary>
+            Sends the message to the default destination for this producer.  The object must be serializable to XML.
+            </summary>
+        </member>
+        <member name="M:Apache.NMS.MessageProducerExtensions.Send(Apache.NMS.IMessageProducer,System.Object,Apache.NMS.MsgDeliveryMode,Apache.NMS.MsgPriority,System.TimeSpan)">
+            <summary>
+            Sends the message to the default destination with the explicit QoS configuration.  The object must be serializable to XML.
+            </summary>
+        </member>
+        <member name="M:Apache.NMS.MessageProducerExtensions.Send(Apache.NMS.IMessageProducer,Apache.NMS.IDestination,System.Object)">
+            <summary>
+            Sends the message to the given destination
+            </summary>
+        </member>
+        <member name="M:Apache.NMS.MessageProducerExtensions.Send(Apache.NMS.IMessageProducer,Apache.NMS.IDestination,System.Object,Apache.NMS.MsgDeliveryMode,Apache.NMS.MsgPriority,System.TimeSpan)">
+            <summary>
+            Sends the message to the given destination with the explicit QoS configuration.  The object must be serializable to XML.
+            </summary>
         </member>
         <member name="T:Apache.NMS.NMSConnectionException">
             <summary>
@@ -2631,6 +2681,53 @@
             </summary>
             <param name="info">The SerializationInfo that holds the serialized object data about the exception being thrown.</param>
             <param name="context">The StreamingContext that contains contextual information about the source or destination.</param>
+        </member>
+        <member name="M:Apache.NMS.SessionExtensions.CreateXmlMessage(Apache.NMS.ISession,System.Object)">
+            <summary>
+            Extension function to create a text message from an object.  The object must be serializable to XML.
+            </summary>
+        </member>
+        <member name="M:Apache.NMS.SessionExtensions.GetDestination(Apache.NMS.ISession,System.String)">
+            <summary>
+            Extension function to get the destination by parsing the embedded type prefix.  Default is Queue if no prefix is
+            embedded in the destinationName.
+            </summary>
+        </member>
+        <member name="M:Apache.NMS.SessionExtensions.GetDestination(Apache.NMS.ISession,System.String,Apache.NMS.DestinationType)">
+            <summary>
+            Extension function to get the destination by parsing the embedded type prefix.
+            </summary>
+        </member>
+        <member name="M:Apache.NMS.SessionExtensions.GetQueue(Apache.NMS.ISession,System.String)">
+            <summary>
+            Extension function to get the destination by parsing the embedded type prefix.
+            </summary>
+        </member>
+        <member name="M:Apache.NMS.SessionExtensions.GetTopic(Apache.NMS.ISession,System.String)">
+            <summary>
+            Extension function to get the destination by parsing the embedded type prefix.
+            </summary>
+        </member>
+        <member name="M:Apache.NMS.SessionExtensions.DeleteDestination(Apache.NMS.ISession,System.String)">
+            <summary>
+            Extension function to delete the named destination by parsing the embedded type prefix.  Default is Queue if no prefix is
+            embedded in the destinationName.
+            </summary>
+        </member>
+        <member name="M:Apache.NMS.SessionExtensions.DeleteDestination(Apache.NMS.ISession,System.String,Apache.NMS.DestinationType)">
+            <summary>
+            Extension function to delete the named destination by parsing the embedded type prefix.
+            </summary>
+        </member>
+        <member name="M:Apache.NMS.SessionExtensions.DeleteQueue(Apache.NMS.ISession,System.String)">
+            <summary>
+            Extension function to delete the named destination by parsing the embedded type prefix.
+            </summary>
+        </member>
+        <member name="M:Apache.NMS.SessionExtensions.DeleteTopic(Apache.NMS.ISession,System.String)">
+            <summary>
+            Extension function to delete the named destination by parsing the embedded type prefix.
+            </summary>
         </member>
         <member name="M:Apache.NMS.TransactionInProgressException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)">
             <summary>

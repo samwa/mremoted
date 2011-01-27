@@ -2,10 +2,11 @@ using System;
 using NUnit.Framework;
 using Apache.NMS;
 using Apache.NMS.ActiveMQ;
+using System.Threading;
 namespace ActiveMQ.Examples
 {
 	[TestFixture]
-	public class ApacheNMSActiveMQTests
+	public class NMSTopicTests
 	{
 		private IConnection connection;
 		private IConnectionFactory connectionFactory;
@@ -30,6 +31,28 @@ namespace ActiveMQ.Examples
 			subscriber.OnMessageReceived += 
 				message => Console.WriteLine("Recieving message=>{0}", message);
 		}
+
+        [Test]
+        public void Publish()
+        {
+            using (var publisher = new TopicPublisher(session, TOPIC_NAME))
+            {
+                publisher.SendMessage("test message");
+            }
+        }
+
+        [TearDown]
+        public void Teardown()
+        {
+            Thread.Sleep(1000);
+            subscriber.Dispose();
+            session.Close();
+            session.Dispose();
+
+            connection.Stop();
+            connection.Close();
+            connection.Dispose();
+        }
 	}
 }
 

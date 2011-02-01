@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RemoteClass", "RemoteClass\RemoteClass.csproj", "{699580DF-5193-40AA-8663-3B01BDDEBA1D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ActiveMQ.Examples", "ActiveMQ.Examples\ActiveMQ.Examples.csproj", "{E494FA2C-E915-4F41-AA5F-4232A36F49AA}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RemotingApp", "RemotingApp\RemotingApp.csproj", "{BAD6DB35-C03B-4AF9-A77B-124154B00C1A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestRemoteClass", "TestRemoteClass\TestRemoteClass.csproj", "{55002B2E-C3CF-45DC-829E-F4F24EBE0F89}"
@@ -41,16 +39,6 @@ Global
 		{699580DF-5193-40AA-8663-3B01BDDEBA1D}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{699580DF-5193-40AA-8663-3B01BDDEBA1D}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{699580DF-5193-40AA-8663-3B01BDDEBA1D}.Release|x86.ActiveCfg = Release|Any CPU
-		{E494FA2C-E915-4F41-AA5F-4232A36F49AA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E494FA2C-E915-4F41-AA5F-4232A36F49AA}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E494FA2C-E915-4F41-AA5F-4232A36F49AA}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{E494FA2C-E915-4F41-AA5F-4232A36F49AA}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
-		{E494FA2C-E915-4F41-AA5F-4232A36F49AA}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{E494FA2C-E915-4F41-AA5F-4232A36F49AA}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E494FA2C-E915-4F41-AA5F-4232A36F49AA}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E494FA2C-E915-4F41-AA5F-4232A36F49AA}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{E494FA2C-E915-4F41-AA5F-4232A36F49AA}.Release|Mixed Platforms.Build.0 = Release|Any CPU
-		{E494FA2C-E915-4F41-AA5F-4232A36F49AA}.Release|x86.ActiveCfg = Release|Any CPU
 		{BAD6DB35-C03B-4AF9-A77B-124154B00C1A}.Debug|Any CPU.ActiveCfg = Debug|x86
 		{BAD6DB35-C03B-4AF9-A77B-124154B00C1A}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
 		{BAD6DB35-C03B-4AF9-A77B-124154B00C1A}.Debug|Mixed Platforms.Build.0 = Debug|x86
